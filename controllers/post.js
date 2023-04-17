@@ -70,3 +70,58 @@ exports.new = (req, res, next) => {
     };
     res.render('posts/new', {post});
 };
+
+// POST /posts/create
+exports.create = async (req, res, next) => {
+    const {title, body} = req.body;
+
+    let post;
+    try {
+        post = models.Post.build({
+            title,
+            body
+        });
+
+        post = await post.save({fields: ["title", "body"]});
+        console.log('Post creado con éxito.');
+
+        try {
+            if (!req.file) {
+                console.log('Info: Se requiere una foto.');
+                return;
+            }
+
+            // Create the post attachment
+            await createPostAttachment(req, post);
+        } catch (error) {
+            console.log('Error: Failed to create attachment: ' + error.message);
+        } finally {
+            res.redirect('/posts/' + post.id);
+        }
+    } catch (error) {
+        if (error instanceof (Sequelize.ValidationError)) {
+            console.log('Errores en el formulario:');
+            error.errors.forEach(({message}) => console.log(message));
+            res.render('posts/new', {post});
+        } else {
+            next(error);
+        }
+    }
+};
+
+// Aux function to upload req.file to cloudinary, create an attachment with it, and
+// associate it with the gien post.
+// This function is called from the create an update middleware. DRY.
+const createPostAttachment = async (req, post) => {
+    const image = req.file.buffer.toString('base64');
+    const url = `${req.protocol}://${req.get('host')}/posts/${post.id}/attachment`;
+
+    // Create the new attachment into the data base.
+    const attachment = await models.Attachment.create({
+        mime: req.file.mimetype,
+        image,
+        url
+    });
+    await post.setAttachment(attachment);
+    console.log('Success: Attachment saved successfully.');
+};
