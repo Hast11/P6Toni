@@ -39,4 +39,7 @@ router.get('/posts/new', postController.new);
 /* P6 - Tarea 8.2: POST /posts */
 router.post('/posts', upload.single('image'), postController.create);
 
+/* P6 - Tarea 8.3: GET /posts/:postId/edit */
+router.get('/posts/:postId(\\d+)/edit', postController.edit);
+
 module.exports = router;
