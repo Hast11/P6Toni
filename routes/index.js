@@ -3,6 +3,14 @@ var router = express.Router();
 
 const postController = require('../controllers/post');
 
+const multer = require('multer');
+const storage = multer.memoryStorage();
+
+const upload = multer({
+  storage: storage,
+  limits: {fileSize: 20 * 1024 * 1024}
+});
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Blog' });
@@ -24,5 +32,11 @@ router.get('/posts', postController.index);
 
 /* P7 - Tarea 7: GET /posts/:postId */
 router.get('/posts/:postId(\\d+)', postController.show);
+
+/* P7 - Tarea 8.1: GET /posts/new */
+router.get('/posts/new', postController.new);
+
+/* P6 - Tarea 8.2: POST /posts */
+router.post('/posts', upload.single('image'), postController.create);
 
 module.exports = router;
