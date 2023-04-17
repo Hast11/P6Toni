@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
                 validate: {notEmpty: {msg: "Title must not be empty"}}
             },
             body: {
-                type: DataTypes.STRING,
+                type: DataTypes.TEXT,
                 validate: {notEmpty: {msg: "Body must not be empty"}}
             }
         }, {
