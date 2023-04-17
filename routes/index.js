@@ -45,4 +45,7 @@ router.get('/posts/:postId(\\d+)/edit', postController.edit);
 /* P6 - Tarea 8.4: GET /posts/:postId/update */
 router.put('/posts/:postId(\\d+)', upload.single('image'), postController.update);
 
+/* P6 - Tarea 8.5: DELETE /posts/:postId */
+router.delete('/posts/:postId(\\d+)', postController.destroy);
+
 module.exports = router;
