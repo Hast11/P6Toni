@@ -42,4 +42,7 @@ router.post('/posts', upload.single('image'), postController.create);
 /* P6 - Tarea 8.3: GET /posts/:postId/edit */
 router.get('/posts/:postId(\\d+)/edit', postController.edit);
 
+/* P6 - Tarea 8.4: GET /posts/:postId/update */
+router.put('/posts/:postId(\\d+)', upload.single('image'), postController.update);
+
 module.exports = router;
