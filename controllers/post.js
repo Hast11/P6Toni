@@ -3,13 +3,28 @@ const {models} = require("../models");
 
 // Autoload el post asociado a :postId
 exports.load = async (req, res, next, postId) => {
-    try {
+    try {  
         const post = await models.Post.findByPk(postId, {
             include: [
                 {model: models.Attachment, as: 'attachment'}
             ]
         });
         if (post) {
+            /*
+            Paso 1: Añadir propiedad "load" al objeto "req"
+            req.load
+
+            Paso 2: Recuperar post de la DB:
+            const post = await models.Post.findByPk(postId, {
+                include: [
+                    {model: models.Attachment, as: 'attachment'}
+                ]
+            });
+
+            Paso 3: Creamos propiedad post en el objeto req dentro de la propiedad load con el post.
+            objetoActualizad = { ...req.load, post } 
+            
+            */
             req.load = {...req.load, post};
             next();
         } else {
