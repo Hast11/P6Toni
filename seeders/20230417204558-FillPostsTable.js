@@ -30,7 +30,13 @@ module.exports = {
           body: 'Cada post puede tener una imagen adjunta.',
           createdAt: new Date(),
           updatedAt: new Date()
-      }
+      },
+      {
+        title: 'Post LIVE',
+        body: 'Este post lo hemos creado en clase!',
+        createdAt: new Date(),
+        updatedAt: new Date()
+    }
   ]);
   },
 
