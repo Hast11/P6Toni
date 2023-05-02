@@ -21,3 +21,9 @@ footer {
   margin-top: 8px;
   padding: 8px;
 }
+
+.postShow {
+  border: 3px solid blue;
+  margin-top: 4px;
+  padding: 8px;
+}
